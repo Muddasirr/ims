@@ -12,7 +12,7 @@ const StockOutTable = () => {
   useEffect(() => {
     const fetchStockOutData = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/inventory/stockout`);
+        const response = await fetch(`/api/inventory/stockout`);
         const data = await response.json();
         setStockOutData(data.stockOut);
       } catch (error) {
