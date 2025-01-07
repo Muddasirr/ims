@@ -11,7 +11,7 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', data);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/auth/login`, data);
       alert('Login successful: ' + response.data.message);
      router.push('/dashboard/Inventorytable');
     } catch (error) {
