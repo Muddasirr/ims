@@ -2,8 +2,10 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, Box, Button } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 const Header = () => {
+  const {user} = useAuth();
   const menuItems = [
     // { path: "/dashboard/CreateUser", label: "Create User" },
     { path: "/dashboard/Inventory", label: "Inventory" },
@@ -37,6 +39,14 @@ const Header = () => {
               {item.label}
             </Button>
           ))}
+         { user.role==='admin' && <Button
+              key={'/dashboard/CreateUser'}
+              color="inherit"
+              onClick={() => router.push('/dashboard/CreateUser')} 
+              sx={{ marginLeft: 1 }}
+            >
+              Create User
+            </Button>}
         </Box>
       </Toolbar>
     </AppBar>

@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     try {
       const results = [];
       for (const entry of entries) {
-        const { mtd, container_id, po_id, item_code, in_qty = 0 } = entry;
+        const { mtd, container_id, po_id, item_code, in_qty = 0, email } = entry;
     
        
         if (!item_code || !in_qty) {
@@ -51,11 +51,11 @@ export default async function handler(req, res) {
         }
     
         const insertStockInQuery = `
-          INSERT INTO stock_in (mtd, container_id, po_id, item_code, in_qty)
-          VALUES ($1, $2, $3, $4, $5)
+          INSERT INTO stock_in (mtd, container_id, po_id, item_code, in_qty,email)
+          VALUES ($1, $2, $3, $4, $5,$6)
           RETURNING *;
         `;
-        const insertStockInValues = [mtd, container_id, po_id, item_code, in_qty];
+        const insertStockInValues = [mtd, container_id, po_id, item_code, in_qty,email];
         const stockInResult = await pool.query(insertStockInQuery, insertStockInValues);
     
        

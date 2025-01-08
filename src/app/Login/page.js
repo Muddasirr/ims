@@ -16,7 +16,7 @@ const Login = () => {
     try {
       const response = await axios.post(`/api/auth/login`, data);
       
-      // Save user data to context and localStorage
+     
       setUser(response.data.user);
       localStorage.setItem('user', JSON.stringify(response.data.user));
 

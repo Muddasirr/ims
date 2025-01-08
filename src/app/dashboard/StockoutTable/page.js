@@ -43,6 +43,7 @@ const StockOutTable = () => {
             <TableCell>Transfer ID</TableCell>
             <TableCell>Item Code</TableCell>
             <TableCell>Out Quantity</TableCell>
+            <TableCell>User</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -54,6 +55,7 @@ const StockOutTable = () => {
               <TableCell>{row.transfer_id}</TableCell>
               <TableCell>{row.item_code}</TableCell>
               <TableCell>{row.out_qty}</TableCell>
+              <TableCell>{row.email}</TableCell>
             </TableRow>
           ))}
         </TableBody>

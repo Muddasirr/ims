@@ -4,11 +4,12 @@ import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { TextField, MenuItem, Button, Typography, Box, IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-
+import { useAuth } from '@/context/AuthContext';
 const Stockin = () => {
-  const { handleSubmit, control, register } = useForm({
+  const {user} = useAuth();
+  const { handleSubmit, control, register,setValue } = useForm({
     defaultValues: {
-      entries: [{ item_code: '', container_id: '', po_id: '', in_qty: '' }],
+      entries: [{ item_code: '', container_id: '', po_id: '', in_qty: '',email:'' }],
     },
   });
   const { fields, append, remove } = useFieldArray({
@@ -17,6 +18,7 @@ const Stockin = () => {
   });
   const [itemCodes, setItemCodes] = useState([]);
 
+ 
   useEffect(() => {
     fetchItemCodes()
       .then(setItemCodes)
@@ -33,13 +35,18 @@ const Stockin = () => {
   };
 
   const onSubmit = async (data) => {
+    const updatedData = data.entries.map(item => ({
+      ...item, 
+      email: user.email,
+    }));
     try {
+      console.log(updatedData)
       const response = await fetch(`/api/inventory/stockin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data), // Send the array of entries
+        body: JSON.stringify({entries:updatedData})
       });
       if (!response.ok) throw new Error('Failed to create stock-in records');
       alert('Stock-in records created successfully!');

@@ -8,7 +8,7 @@ import {
 const StockInTable = () => {
   const [stockInData, setStockInData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     const fetchStockInData = async () => {
       try {
@@ -43,6 +43,7 @@ const StockInTable = () => {
             <TableCell>PO ID</TableCell>
             <TableCell>Item Code</TableCell>
             <TableCell>In Quantity</TableCell>
+            <TableCell>User</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -54,6 +55,7 @@ const StockInTable = () => {
               <TableCell>{row.po_id}</TableCell>
               <TableCell>{row.item_code}</TableCell>
               <TableCell>{row.in_qty}</TableCell>
+              <TableCell>{row.email}</TableCell>
             </TableRow>
           ))}
         </TableBody>

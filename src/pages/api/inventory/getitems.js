@@ -17,6 +17,7 @@ export default async function handler(req, res) {
           sbi.on_hand_qty,
           sbi.reorder_status,
           sbi.picture,
+          sbi.email,
           COALESCE(json_agg(
             json_build_object(
               'location_name', sl.location_name,

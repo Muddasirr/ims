@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       const results = [];
   
       for (const entry of entries) {
-        const { date, customer_name, transfer_id, item_code, out_qty = 0 } = entry;
+        const { date, customer_name, transfer_id, item_code, out_qty = 0, email } = entry;
   
         if (!item_code || !out_qty) {
           return res.status(400).json({ error: 'Item code and out_qty are required for all entries' });
@@ -49,11 +49,11 @@ export default async function handler(req, res) {
   
        
         const insertStockOutQuery = `
-          INSERT INTO stock_out (date, customer_name, transfer_id, item_code, out_qty)
-          VALUES ($1, $2, $3, $4, $5)
+          INSERT INTO stock_out (date, customer_name, transfer_id, item_code, out_qty, email)
+          VALUES ($1, $2, $3, $4, $5, $6)
           RETURNING *;
         `;
-        const insertStockOutValues = [date, customer_name, transfer_id, item_code, out_qty];
+        const insertStockOutValues = [date, customer_name, transfer_id, item_code, out_qty, email];
         const stockOutResult = await pool.query(insertStockOutQuery, insertStockOutValues);
   
        

@@ -13,6 +13,7 @@ export default async function handler(req, res) {
       out_qty = 0,
       picture,
       locations, 
+      email
     } = req.body;
 
   
@@ -36,17 +37,17 @@ export default async function handler(req, res) {
         await client.query(
           `UPDATE stock_balance_inventory 
            SET description = $1, total_ctn = $2, ctn_size = $3, received_qty = $4, 
-               out_qty = $5, picture = $6 
-           WHERE item_code = $7`,
+               out_qty = $5, picture = $6, email=$7
+           WHERE item_code = $8`,
           [description, total_ctn, ctn_size, received_qty, out_qty, picture, item_code]
         );
       } else {
         
         await client.query(
           `INSERT INTO stock_balance_inventory 
-           (item_code, description, total_ctn, ctn_size, received_qty, out_qty, picture) 
-           VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-          [item_code, description, total_ctn, ctn_size, received_qty, out_qty, picture]
+           (item_code, description, total_ctn, ctn_size, received_qty, out_qty, picture,email) 
+           VALUES ($1, $2, $3, $4, $5, $6, $7,$8)`,
+          [item_code, description, total_ctn, ctn_size, received_qty, out_qty, picture,email]
         );
       }
 

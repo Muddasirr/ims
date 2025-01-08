@@ -22,6 +22,7 @@ const InventoryTable = () => {
         const response = await fetch(`/api/inventory/getitems`);
         const data = await response.json();
         setItems(data.items);
+        console.log(data)
       } catch (error) {
         console.error('Error fetching items:', error);
       }
@@ -49,6 +50,7 @@ const InventoryTable = () => {
             <TableCell>On Hand Qty</TableCell>
             <TableCell>Reorder Status</TableCell>
             <TableCell>Locations</TableCell>
+            <TableCell>User</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -74,6 +76,7 @@ const InventoryTable = () => {
               <TableCell>{item.out_qty}</TableCell>
               <TableCell>{item.on_hand_qty}</TableCell>
               <TableCell>{item.reorder_status || 'N/A'}</TableCell>
+              
               <TableCell>
                 {item.locations.length > 0 ? (
                   <ul style={{ paddingLeft: '16px' }}>
@@ -87,6 +90,7 @@ const InventoryTable = () => {
                   'No Locations'
                 )}
               </TableCell>
+              <TableCell>{item.email}</TableCell>
             </TableRow>
           ))}
         </TableBody>

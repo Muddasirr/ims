@@ -4,8 +4,10 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { TextField, Button, Grid, Paper, Typography, IconButton } from '@mui/material';
 // import AddIcon from '@mui/icons-material/Add';
 // import RemoveIcon from '@mui/icons-material/Remove';
-
+import { useAuth } from '@/context/AuthContext';
 const Inventory = () => {
+  const {user} = useAuth();
+  console.log(user.email)
   const { register, handleSubmit, control, reset, watch } = useForm({
     defaultValues: {
       item_code: '',
@@ -46,7 +48,7 @@ const Inventory = () => {
 
   const onSubmit = async (data) => {
    
-    const formData = { ...data, picture: base64Image };
+    const formData = { ...data, picture: base64Image,email:user.email };
 
     try {
       const response = await fetch(`/api/inventory/createitem`, {
