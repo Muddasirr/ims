@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 const RootLayout = ({ children }) => {
   const { user } = useAuth();
 
+  console.log(user)
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
