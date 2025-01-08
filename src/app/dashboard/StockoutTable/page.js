@@ -50,7 +50,7 @@ const StockOutTable = () => {
           {stockOutData.map((row) => (
             <TableRow key={row.id}>
               <TableCell>{row.id}</TableCell>
-              <TableCell>{row.date}</TableCell>
+              <TableCell>{new Date(row.mtd).toLocaleString('en-GB', { timeZone: 'Asia/Karachi' })}</TableCell>
               <TableCell>{row.customer_name}</TableCell>
               <TableCell>{row.transfer_id}</TableCell>
               <TableCell>{row.item_code}</TableCell>

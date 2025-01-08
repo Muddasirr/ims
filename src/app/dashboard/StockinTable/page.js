@@ -15,10 +15,12 @@ const StockInTable = () => {
         const response = await fetch(`/api/inventory/stockin`);
         const data = await response.json();
         setStockInData(data.stockIn);
+        
       } catch (error) {
         console.error('Error fetching stock-in data:', error);
       } finally {
         setLoading(false);
+        
       }
     };
 
@@ -28,6 +30,7 @@ const StockInTable = () => {
   if (loading) {
     return <CircularProgress />;
   }
+  console.log(stockInData)
 
   return (
     <TableContainer component={Paper}>
@@ -39,6 +42,7 @@ const StockInTable = () => {
           <TableRow>
             <TableCell>ID</TableCell>
             <TableCell>MTD</TableCell>
+           
             <TableCell>Container ID</TableCell>
             <TableCell>PO ID</TableCell>
             <TableCell>Item Code</TableCell>
@@ -50,7 +54,8 @@ const StockInTable = () => {
           {stockInData.map((row) => (
             <TableRow key={row.id}>
               <TableCell>{row.id}</TableCell>
-              <TableCell>{row.mtd}</TableCell>
+              <TableCell>{new Date(row.mtd).toLocaleString('en-GB', { timeZone: 'Asia/Karachi' })}</TableCell>
+              
               <TableCell>{row.container_id}</TableCell>
               <TableCell>{row.po_id}</TableCell>
               <TableCell>{row.item_code}</TableCell>

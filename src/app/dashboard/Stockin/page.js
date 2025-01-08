@@ -40,7 +40,7 @@ const Stockin = () => {
       email: user.email,
     }));
     try {
-      console.log(updatedData)
+     
       const response = await fetch(`/api/inventory/stockin`, {
         method: 'POST',
         headers: {
@@ -54,6 +54,7 @@ const Stockin = () => {
       console.error('Error:', error);
     }
   };
+  console.log(new Date().toISOString().split('T')[0])
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
