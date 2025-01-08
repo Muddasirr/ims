@@ -21,7 +21,7 @@ const Stockout = () => {
   const [itemCodes, setItemCodes] = useState([]);
 
   const fetchItemCodes = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/inventory/getitems`);
+    const response = await fetch(`/api/inventory/getitems`);
     if (!response.ok) {
       throw new Error('Failed to fetch item codes');
     }

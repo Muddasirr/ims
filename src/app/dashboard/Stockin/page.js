@@ -24,7 +24,7 @@ const Stockin = () => {
   }, []);
 
   const fetchItemCodes = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/inventory/getitems`);
+    const response = await fetch(`/api/inventory/getitems`);
     if (!response.ok) {
       throw new Error('Failed to fetch item codes');
     }
@@ -34,7 +34,7 @@ const Stockin = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/inventory/stockin`, {
+      const response = await fetch(`/api/inventory/stockin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -49,7 +49,7 @@ const Inventory = () => {
     const formData = { ...data, picture: base64Image };
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/inventory/createitem`, {
+      const response = await fetch(`/api/inventory/createitem`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

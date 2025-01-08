@@ -9,7 +9,7 @@ const CreateUser = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/auth/createuser`, data);
+      const response = await axios.post(`/api/auth/createuser`, data);
       alert('User created successfully: ' + response.data.message); 
     
     } catch (error) {

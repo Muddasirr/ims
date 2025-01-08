@@ -19,7 +19,7 @@ const InventoryTable = () => {
     
     const fetchItems = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/inventory/getitems`);
+        const response = await fetch(`/api/inventory/getitems`);
         const data = await response.json();
         setItems(data.items);
       } catch (error) {

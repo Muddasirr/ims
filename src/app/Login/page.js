@@ -1,21 +1,29 @@
-'use client'
+
+'use client';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import axios from 'axios';
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../../context/AuthContext'
 
 const Login = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const { setUser } = useAuth();
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/auth/login`, data);
-      alert('Login successful: ' + response.data.message);
-     router.push('/dashboard/Inventorytable');
+      const response = await axios.post(`/api/auth/login`, data);
+      
+      // Save user data to context and localStorage
+      setUser(response.data.user);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+
+      alert('Login successful');
+      router.push('/dashboard/Inventorytable');
     } catch (error) {
-      alert('Error: ' + error.response.data.message); 
+      alert('Error: ' + error.response?.data?.message || 'Login failed');
     }
   };
 
@@ -27,7 +35,6 @@ const Login = () => {
         </Typography>
         
         <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
-        
           <TextField
             label="Email"
             variant="outlined"
@@ -37,8 +44,6 @@ const Login = () => {
             error={!!errors.email}
             helperText={errors.email?.message}
           />
-
-         
           <TextField
             label="Password"
             type="password"
@@ -49,8 +54,6 @@ const Login = () => {
             error={!!errors.password}
             helperText={errors.password?.message}
           />
-          
-         
           <Button 
             type="submit" 
             variant="contained" 
