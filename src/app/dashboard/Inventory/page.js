@@ -1,14 +1,19 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { TextField, Button, Grid, Paper, Typography, IconButton } from '@mui/material';
-// import AddIcon from '@mui/icons-material/Add';
-// import RemoveIcon from '@mui/icons-material/Remove';
 import { useAuth } from '@/context/AuthContext';
+
 const Inventory = () => {
-  const {user} = useAuth();
-  console.log(user.email)
-  const { register, handleSubmit, control, reset, watch } = useForm({
+  const { user } = useAuth();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    // Set isClient to true after the component is mounted on the client-side
+    setIsClient(true);
+  }, []);
+
+  const { register, handleSubmit, control, reset } = useForm({
     defaultValues: {
       item_code: '',
       description: '',
@@ -34,7 +39,6 @@ const Inventory = () => {
 
   const [base64Image, setBase64Image] = useState('');
 
- 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -47,30 +51,33 @@ const Inventory = () => {
   };
 
   const onSubmit = async (data) => {
-   
-    const formData = { ...data, picture: base64Image, email:user.email };
-   
-    try {
-      const response = await fetch(`/api/inventory/createitem`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+    if (user) {
+      const formData = { ...data, picture: base64Image, email: user.email };
+      try {
+        const response = await fetch(`/api/inventory/createitem`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
 
-      if (response.ok) {
-        const result = await response.json();
-        alert(result.message);
-        reset();
-        setBase64Image('');
-      } else {
-        const error = await response.json();
-        alert(`Error: ${error.error}`);
+        if (response.ok) {
+          const result = await response.json();
+          alert(result.message);
+          reset();
+          setBase64Image('');
+        } else {
+          const error = await response.json();
+          alert(`Error: ${error.error}`);
+        }
+      } catch (err) {
+        console.error('Failed to submit form:', err);
+        alert('Failed to submit the form.');
       }
-    } catch (err) {
-      console.error('Failed to submit form:', err);
-      alert('Failed to submit the form.');
     }
   };
+
+  // Only render the component on the client side (after hydration)
+  if (!isClient) return null;
 
   return (
     <Paper elevation={3} style={{ padding: '20px', marginTop: '20px' }}>
@@ -79,7 +86,6 @@ const Inventory = () => {
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
-          
           <Grid item xs={12} md={6}>
             <TextField
               label="Item Code"
@@ -88,7 +94,6 @@ const Inventory = () => {
             />
           </Grid>
 
-        
           <Grid item xs={12} md={6}>
             <TextField
               label="Description"
@@ -97,7 +102,6 @@ const Inventory = () => {
             />
           </Grid>
 
-          
           <Grid item xs={12} md={4}>
             <TextField
               label="Total CTN"
@@ -125,7 +129,6 @@ const Inventory = () => {
             />
           </Grid>
 
-       
           <Grid item xs={12} md={6}>
             <TextField
               label="Out Quantity"
@@ -135,7 +138,6 @@ const Inventory = () => {
             />
           </Grid>
 
-       
           <Grid item xs={12} md={6}>
             <Button variant="contained" component="label" fullWidth>
               Upload Picture
@@ -158,7 +160,6 @@ const Inventory = () => {
           </Grid>
           {fields.map((field, index) => (
             <Grid container spacing={2} key={field.id}>
-            
               <Grid item xs={12} md={4}>
                 <TextField
                   label="Location Name"
@@ -169,7 +170,6 @@ const Inventory = () => {
                 />
               </Grid>
 
-              {/* Row Shelf */}
               <Grid item xs={12} md={4}>
                 <TextField
                   label="Row Shelf"
@@ -180,7 +180,6 @@ const Inventory = () => {
                 />
               </Grid>
 
-          
               <Grid item xs={12} md={3}>
                 <TextField
                   label="Quantity"
@@ -190,29 +189,23 @@ const Inventory = () => {
                 />
               </Grid>
 
-           
               <Grid item xs={12} md={1}>
                 <IconButton onClick={() => remove(index)}>
-                  
+                  {/* Add/remove icons */}
                 </IconButton>
               </Grid>
             </Grid>
           ))}
 
-      
           <Grid item xs={12}>
             <Button
               variant="outlined"
-              
-              onClick={() =>
-                append({ location_name: '', row_shelf: '', quantity: 0 })
-              }
+              onClick={() => append({ location_name: '', row_shelf: '', quantity: 0 })}
             >
               Add Location
             </Button>
           </Grid>
 
-        
           <Grid item xs={12}>
             <Button variant="contained" type="submit" fullWidth>
               Submit
