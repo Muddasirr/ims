@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
 const Header = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();  // Assuming logout is provided by your AuthContext
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const Header = () => {
               {item.label}
             </Button>
           ))}
-          
+
           {isLoading ? (
             <CircularProgress size={24} sx={{ color: "white", marginLeft: 1 }} />
           ) : (
@@ -57,6 +57,20 @@ const Header = () => {
                 Create User
               </Button>
             )
+          )}
+
+          {/* Logout Button */}
+          {user && (
+            <Button
+              color="inherit"
+              onClick={() => {
+                logout();  // Call logout function from the context
+                router.push("Login");  // Redirect to login page after logging out
+              }}
+              sx={{ marginLeft: 2 }}
+            >
+              Logout
+            </Button>
           )}
         </Box>
       </Toolbar>
