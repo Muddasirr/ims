@@ -47,9 +47,9 @@ const Inventory = () => {
   };
 
   const onSubmit = async (data) => {
-   if (user){
+   
     const formData = { ...data, picture: base64Image, email:user.email };
-   }
+   
     try {
       const response = await fetch(`/api/inventory/createitem`, {
         method: 'POST',
