@@ -61,9 +61,6 @@ const Stockout = () => {
     }
   };
 
-  if (loading) {
-    return <Typography>Loading...</Typography>; // You can display a loader or a message here
-  }
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
