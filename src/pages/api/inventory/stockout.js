@@ -55,7 +55,20 @@ export default async function handler(req, res) {
         `;
         const insertStockOutValues = [date, customer_name, transfer_id, item_code, out_qty, email];
         const stockOutResult = await pool.query(insertStockOutQuery, insertStockOutValues);
-  
+
+        const checklocation = 'SELECT * FROM stock_locations WHERE item_code =$1 AND location_name=$2'
+        const checklocationResult= await pool.query(checklocation,[item_code,location]);
+        if (checklocationResult.rows.length===0){
+return res.status(404).json({error:`Wrong location`})
+        }
+        else {
+        const updatelocation =   `UPDATE stock_balance_inventory
+              SET quantity= quantity - $1
+              WHERE item_code= $2 AND location_name= $3`;
+              const updatelocationresult = pool.query(updatelocation,[in_qty,item_code,location]);
+        }
+
+
        
         const updateInventoryQuery = `
           UPDATE stock_balance_inventory

@@ -9,7 +9,7 @@ const Stockin = () => {
   const {user} = useAuth();
   const { handleSubmit, control, register,setValue } = useForm({
     defaultValues: {
-      entries: [{ item_code: '', container_id: '', po_id: '', in_qty: '',email:'' }],
+      entries: [{ item_code: '', container_id: '', po_id: '', in_qty: '',email:'',location:'' }],
     },
   });
   const { fields, append, remove } = useFieldArray({
@@ -115,6 +115,14 @@ const Stockin = () => {
             margin="normal"
             {...register(`entries[${index}].in_qty`, { required: true })}
           />
+          <TextField
+           label="Location"
+            type="String"
+            fullWidth
+            margin="normal"
+            {...register(`entries[${index}].location`, { required: true })}
+          
+          />
           </Box>
           <Button color="error" onClick={() => remove(index)} sx={{ marginTop: 2 }}>
             Delete Entry
@@ -127,7 +135,7 @@ const Stockin = () => {
         variant="outlined"
         color="primary"
         onClick={() =>
-          append({ item_code: '', container_id: '', po_id: '', in_qty: '' })
+          append({ item_code: '', container_id: '', po_id: '', in_qty: '',location:'' })
         }
         
       >

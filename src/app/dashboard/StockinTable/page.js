@@ -42,6 +42,7 @@ const StockInTable = () => {
           <TableRow>
             <TableCell>ID</TableCell>
             <TableCell>MTD</TableCell>
+            
            
             <TableCell>Container ID</TableCell>
             <TableCell>PO ID</TableCell>

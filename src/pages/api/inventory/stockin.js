@@ -31,8 +31,8 @@ export default async function handler(req, res) {
     try {
       const results = [];
       for (const entry of entries) {
-        const { mtd, container_id, po_id, item_code, in_qty = 0, email } = entry;
-    
+        const { mtd, container_id, po_id, item_code, in_qty = 0, email, location,row_shelf } = entry;
+      
        
         if (!item_code || !in_qty) {
           return res.status(400).json({
@@ -48,6 +48,23 @@ export default async function handler(req, res) {
           return res.status(404).json({
             error: `Item code "${item_code}" does not exist in stock balance inventory`,
           });
+        }
+        const checklocation = 'SELECT * FROM stock_locations WHERE item_code =$1 AND location_name=$2'
+        const checklocationResult= await pool.query(checklocation,[item_code,location]);
+        if (checklocationResult.rows.length===0){
+const Insertlocation= `
+          INSERT INTO stock_locations ( item_code,location_name,row_shelf, quantity)
+          VALUES ($1, $2, $3, $4)
+          RETURNING *;
+        `;
+const insertLocationValues = [item_code,location,row_shelf,in_qty];
+const locationresult = await pool.query(Insertlocation,insertLocationValues);
+        }
+        else {
+        const updatelocation=   `UPDATE stock_balance_inventory
+              SET quantity= quantity + $1
+              WHERE item_code= $2 AND location_name= $3`;
+              const updatelocationresult = await pool.query(updatelocation,[in_qty,item_code,location]);
         }
     
         const insertStockInQuery = `
