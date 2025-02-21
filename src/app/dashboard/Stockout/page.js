@@ -13,7 +13,7 @@ const Stockout = () => {
 
   const { handleSubmit, control, register, setValue } = useForm({
     defaultValues: {
-      entries: [{ item_code: '', customer_name: '', transfer_id: '', out_qty: 0, email: '' }],
+      entries: [{ item_code: '', customer_name: '', transfer_id: '', out_qty: 0, email: '',location:'' }],
     },
   });
 
@@ -113,12 +113,20 @@ const Stockout = () => {
               {...register(`entries.${index}.transfer_id`)}
             />
             <TextField
+              label="Location"
+              
+              fullWidth
+              margin="normal"
+              {...register(`entries.${index}.location`, { required: true })}
+            />
+            <TextField
               label="Out Quantity"
               type="number"
               fullWidth
               margin="normal"
               {...register(`entries.${index}.out_qty`, { required: true })}
             />
+
           </Box>
 
           <Button color="error" variant="outlined" onClick={() => remove(index)} sx={{ marginTop: 2 }}>

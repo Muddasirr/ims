@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       const results = [];
   
       for (const entry of entries) {
-        const { date, customer_name, transfer_id, item_code, out_qty = 0, email } = entry;
+        const { date, customer_name, transfer_id, item_code, out_qty = 0, email,location } = entry;
   
         if (!item_code || !out_qty) {
           return res.status(400).json({ error: 'Item code and out_qty are required for all entries' });
